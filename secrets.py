@@ -1,3 +1,3 @@
-MY_ADDRESS=test
-PRIVATE_KEY=test
+MY_ADDRESS='test'
+PRIVATE_KEY='test'
 
