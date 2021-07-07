@@ -1,5 +1,7 @@
 # farmer
 
+Python code for interacting with common Polygon tokens, 1inch, and more...
+
 ## Installation and running
 
 Setup the environment with `pipenv install`.
