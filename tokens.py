@@ -18,6 +18,12 @@ class Token:
 	def hr_balanceOf(self, address):
 		return self.balanceOf(address) / (10**self.decimals)
 
+	def hr_amount(self, amount):
+		return amount / (10 ** self.decimals)
+
+	def to_wei(self, amount):
+		return int(amount * 10 ** self.decimals)
+
 class NativeToken(Token):
 	def __init__(self, address):
 		self.address = address
