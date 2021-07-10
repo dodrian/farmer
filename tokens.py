@@ -1,5 +1,5 @@
 
-from settings import w3
+from settings import w3, CHAIN_ID
 from secrets import MY_ADDRESS
 MAX_APPROVE = 2**256 - 1
 
@@ -13,6 +13,12 @@ class Token:
 		self.abi = abi
 		self.contract = w3.eth.contract(address=address, abi=abi)
 		self.decimals = self.contract.functions.decimals().call()
+
+	def balance(self):
+		return self.balanceOf(MY_ADDRESS)
+
+	def hr_balance(self):
+		return self.hr_balanceOf(MY_ADDRESS)
 
 	def balanceOf(self, address):
 		return self.contract.functions.balanceOf(address).call()
