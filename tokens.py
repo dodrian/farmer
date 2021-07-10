@@ -1,5 +1,7 @@
 
 from settings import w3
+from secrets import MY_ADDRESS
+MAX_APPROVE = 2**256 - 1
 
 class Token:
 	address = None
@@ -23,6 +25,25 @@ class Token:
 
 	def to_wei(self, amount):
 		return int(amount * 10 ** self.decimals)
+
+	def allowance(self, spender):
+		return self.contract.functions.allowance(MY_ADDRESS, spender).call()
+
+	def approve(self, spender, amount=MAX_APPROVE):
+		tx = self.contract.functions.approve(spender, amount).buildTransaction({
+			'chainId': CHAIN_ID,
+			'gas': 800000,
+			'gasPrice': w3.toWei('2', 'gwei'),
+			'nonce': w3.eth.get_transaction_count(MY_ADDRESS)
+		})
+		w3.eth.wait_for_transaction_receipt(w3.eth.send_transaction(tx), poll_latency=1)
+
+	def check_and_approve(self, spender, amount, max=True):
+		if self.allowance(spender) < amount:
+			amount = MAX_APPROVE if max else amount
+			self.approve(spender, amount)
+
+
 
 class NativeToken(Token):
 	def __init__(self, address):
